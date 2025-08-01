@@ -3,23 +3,24 @@
 """
 Created on Thu Jul 31 09:36:43 2025
 
-@author: adugnamullissa
+@authors: adugnamullissa, natetrux
 """
 
 import numpy as np
 import streamlit as st
 import plotly.graph_objects as go
 
+#function for P5 fusion method
 def pChange(prior, likelihood):
     return (prior * likelihood)/((prior * likelihood) + ((1 - prior) * (1 - likelihood)))
 
+#define PVV and PVH arrays
 PVV = np.linspace(0, 1, 100) #st.slider("PVV", min_value=0.0, max_value=1.0, value=0.85, step=0.01) #np.linspace(0, 1, 100)
 PVV = PVV[:,np.newaxis]
 PVH = np.linspace(0, 1, 100)
-
 X, Y = np.meshgrid(PVV, PVH)
 
-#luca
+#current luca model methods
 P0 = X*Y
 # print('LUCA',P0)
 P00 = np.maximum(PVV,PVH)
@@ -31,7 +32,7 @@ P1 = PVV+PVH-PVV*PVH
 P5 = pChange(PVV, PVH)
 # print('bayesian',P5)
 
-
+####################### streamlit app start ##############################
 
 fig0 = go.Figure(data = go.Surface(x=PVH,y=PVH, z=P0,colorscale='Viridis',))
 
@@ -161,3 +162,4 @@ st.plotly_chart(fig3, use_countainer_width=True)
 # fig1.show()
 
 
+####################### streamlit app end ##############################
